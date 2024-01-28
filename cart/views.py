@@ -7,16 +7,16 @@ from .forms import CartAddProductForm
 
 @require_POST
 def cart_add(request, product_id):
-    print("Request Body:-------->",request.POST.dict(),"\n\n")
+    #print("Request Body:-------->",request.POST.dict(),"\n\n")
     cart = Cart(request)
-    print("cart",cart,"\n\n")
+    #print("cart",cart,"\n\n")
     product = get_object_or_404(Product, id=product_id)
-    print("product",product,"\n\n")
+    #print("product",product,"\n\n")
     form = CartAddProductForm(data=request.POST)
-    # print("form",form,"\n\n")
+    # #print("form",form,"\n\n")
     if form.is_valid():
         cd = form.cleaned_data
-        print("cd==============>",cd)
+        #print("cd==============>",cd)
         cart.add(product=product,
                  quantity=cd['quantity'],
                  override_quantity=cd['override'])
@@ -34,9 +34,9 @@ def cart_remove(request, product_id):
 def cart_detail(request):
     cart = Cart(request)
     for item in cart:
-        print("item================>",item,"\n\n")
+        #print("item================>",item,"\n\n")
         item['update_quantity_form'] = CartAddProductForm(initial={
                             'quantity': item['quantity'],
                             'override': True})
-        print("item after ================>",item,"\n\n")
+        #print("item after ================>",item,"\n\n")
     return render(request, 'cart/detail.html', {'cart': cart})
